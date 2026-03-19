@@ -1,4 +1,0 @@
-INFO User login
-ERROR Database connection failed
-INFO File uploaded
-ERROR API timeout

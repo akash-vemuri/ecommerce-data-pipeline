@@ -1,4 +1,0 @@
-Hello World
-I'm Akash, learning Data Engineering
-Now I'm trying append mode
-With backslash n we move & write next line
