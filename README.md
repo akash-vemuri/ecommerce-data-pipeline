@@ -2,31 +2,49 @@
 
 ## 🚀 Overview
 
-This project implements an end-to-end ETL (Extract, Transform, Load) pipeline using Python. It fetches product data from an external API, performs data transformations, and loads the processed data into a SQLite database.
+This project implements a production-style ETL pipeline that extracts product data from a REST API, transforms nested JSON into structured format, and loads it into a SQLite database.
 
 ---
 
-## 🧩 Pipeline Flow
+## 🧩 Architecture
 
-1. **Extract**
-
-   * Fetch data from API using `requests`
-
-2. **Transform**
-
-   * Convert JSON to Pandas DataFrame
-   * Handle nested JSON structure
-   * Create new feature: `discount_price`
-   * Filter out out-of-stock products
-   * Sort by product rating
-
-3. **Load**
-
-   * Store processed data into SQLite database using SQLAlchemy
+```
+API → Python (Requests) → Pandas (Transform) → SQLite (Storage)
+```
 
 ---
 
-## ⚙️ Technologies Used
+## 🔄 Pipeline Flow
+
+### 1. Extract
+
+* Fetch product data from API using `requests`
+* Handle API failures with exception handling
+
+### 2. Transform
+
+* Convert JSON → Pandas DataFrame
+* Handle nested JSON (`products`)
+* Create new column: `discount_price`
+* Filter out out-of-stock products
+* Sort by rating (descending)
+
+### 3. Load
+
+* Store processed data into SQLite database using SQLAlchemy
+* Use transaction-safe connection
+
+---
+
+## 📊 Sample Output
+
+| id | title | price | discount_price | category | rating | stock |
+| -- | ----- | ----- | -------------- | -------- | ------ | ----- |
+| 1  | Phone | 500   | 450            | tech     | 4.5    | 10    |
+
+---
+
+## ⚙️ Tech Stack
 
 * Python
 * Pandas
@@ -39,20 +57,21 @@ This project implements an end-to-end ETL (Extract, Transform, Load) pipeline us
 ## 📂 Project Structure
 
 ```
-src/            → pipeline code
-data/           → database file
-logs/           → log files
+src/            → pipeline logic
+data/           → database file (ignored)
+logs/           → log files (ignored)
 ```
 
 ---
 
 ## 🔥 Key Features
 
-* Modular pipeline design (Extract, Transform, Load)
-* Logging for monitoring pipeline execution
+* Modular ETL pipeline (Extract, Transform, Load)
+* Logging for monitoring execution
 * Exception handling for robustness
 * Handles nested JSON data
-* Business logic implementation (discount calculation)
+* Business logic (discount price calculation)
+* Data filtering and sorting
 
 ---
 
@@ -65,15 +84,15 @@ python src/pipeline.py
 
 ---
 
-## 💡 Future Improvements
+## 🚀 Future Improvements
 
-* Add scheduling (cron/Airflow)
+* Add scheduling (cron / Airflow)
 * Implement retry mechanism
 * Add data validation layer
-* Store data in cloud database
+* Use cloud database (AWS / GCP)
 
 ---
 
-## 📌 Author
+## 👤 Author
 
-Akash Vemuri
+Akash

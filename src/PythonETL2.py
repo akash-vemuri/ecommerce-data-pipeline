@@ -10,19 +10,22 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s')
 
 def fetch_ecom_data(url):
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        logging.info("Data fetched successfully from API")
-        return response.json()
-    except Exception as e:
-        logging.error(f"Error fetching data: {e}")
+    for attempt in range(3):
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            logging.info("Data fetched successfully from API")
+            return response.json()
+
+        except Exception as e:
+            logging.warning(f"Attempt {attempt+1} failed : {e}")
+
+        logging.error("All retry attempts failed")
         return None
 
 def transform_ecom_data(data):
     try:
         df = pd.DataFrame(data["products"])
-        # id, title, price, discount_price, category, rating, stock
         df["discount_price"]=df["price"]*(1-(df["discountPercentage"]/100))
         df=df[["id","title","price","discount_price","category","rating","stock"]]
         df=df[df["stock"]>0]
