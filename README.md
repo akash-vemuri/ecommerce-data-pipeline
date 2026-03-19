@@ -77,5 +77,3 @@ python src/pipeline.py
 ## 📌 Author
 
 Akash Vemuri
-# ecommerce-data-pipeline
-ETL pipeline using Python, Pandas, and SQL
